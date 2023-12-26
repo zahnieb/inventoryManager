@@ -1,0 +1,93 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema Inventory
+-- -----------------------------------------------------
+-- Inventory Database for Project 5-7.
+
+-- -----------------------------------------------------
+-- Schema Inventory
+--
+-- Inventory Database for Project 5-7.
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `Inventory` DEFAULT CHARACTER SET utf8 ;
+USE `Inventory` ;
+
+-- -----------------------------------------------------
+-- Table `Inventory`.`Item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Inventory`.`Item` (
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NULL,
+  `purchase_price` VARCHAR(45) NOT NULL,
+  `sales_price` VARCHAR(45) NOT NULL,
+  `SKU` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`SKU`),
+  UNIQUE INDEX `SKU_UNIQUE` (`SKU` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Inventory`.`Customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Inventory`.`Customer` (
+  `customer_name` VARCHAR(45) NOT NULL,
+  `phone` VARCHAR(15) NOT NULL,
+  `total_purchases` DECIMAL(12,2) NULL,
+  `customer_id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`customer_id`),
+  UNIQUE INDEX `customerID_UNIQUE` (`customer_id` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Inventory`.`SalesInvoice`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Inventory`.`SalesInvoice` (
+  `sales_invoice_number` INT NOT NULL AUTO_INCREMENT,
+  `total` DOUBLE NULL,
+  `customer_id` INT NULL,
+  PRIMARY KEY (`sales_invoice_number`),
+  UNIQUE INDEX `salesInvoiceNumber_UNIQUE` (`sales_invoice_number` ASC) VISIBLE,
+  INDEX `customerID_idx` (`customer_id` ASC) VISIBLE,
+  CONSTRAINT `customerID`
+    FOREIGN KEY (`customer_id`)
+    REFERENCES `Inventory`.`Customer` (`customer_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Inventory`.`Sales_to_Item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Inventory`.`Sales_to_Item` (
+  `sales_invoice_number` INT NULL,
+  `SKU` INT NULL,
+  `quantity` INT NULL,
+  `subtotal` DECIMAL(10,2) NULL,
+  `sales_items_id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sales_items_id`),
+  INDEX `fk_SalesData_has_Item_Item1_idx` (`SKU` ASC) VISIBLE,
+  INDEX `fk_SalesData_has_Item_SalesData1_idx` (`sales_invoice_number` ASC) VISIBLE,
+  UNIQUE INDEX `salesItemsID_UNIQUE` (`sales_items_id` ASC) VISIBLE,
+  CONSTRAINT `fk_SalesData_has_Item_SalesData1`
+    FOREIGN KEY (`sales_invoice_number`)
+    REFERENCES `Inventory`.`SalesInvoice` (`sales_invoice_number`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SalesData_has_Item_Item1`
+    FOREIGN KEY (`SKU`)
+    REFERENCES `Inventory`.`Item` (`SKU`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

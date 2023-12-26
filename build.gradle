@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.30'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
+}
+
+test {
+    useJUnit()
+}
+
+
+//Reference: https://mariadb.com/kb/en/java-connector-using-gradle/
+//https://docs.gradle.org/current/samples/sample_building_java_applications.html
+
