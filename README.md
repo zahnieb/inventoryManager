@@ -22,7 +22,7 @@ On IntelliJ, run ManagerDriver.java to start application.
 
 MySQL Schema<br>
 --------------
-
+![Screenshot](imgs/inventoryManagerSchema.png)
 
 Java Classes UML<br>
 --------------

@@ -2,6 +2,12 @@
 # Compiled class file
 *.class
 
+build/
+
+.idea/
+
+out/
+
 # Log file
 *.log
 
