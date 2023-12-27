@@ -26,7 +26,7 @@ MySQL Schema<br>
 
 Java Classes UML<br>
 --------------
-
+![Screenshot](imgs/InventoryManagerUML.png)
 
 Features<br>
 --------------
